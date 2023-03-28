@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rithm.Docs", "Rithm.Docs\Rithm.Docs.csproj", "{90183A40-065B-424D-9139-583ED8F96274}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rithm.Articles", "Rithm.Articles\Rithm.Articles.csproj", "{C762CDB1-642E-46E9-B4F2-7023EEC917CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{90183A40-065B-424D-9139-583ED8F96274}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90183A40-065B-424D-9139-583ED8F96274}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90183A40-065B-424D-9139-583ED8F96274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C762CDB1-642E-46E9-B4F2-7023EEC917CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C762CDB1-642E-46E9-B4F2-7023EEC917CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C762CDB1-642E-46E9-B4F2-7023EEC917CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C762CDB1-642E-46E9-B4F2-7023EEC917CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
