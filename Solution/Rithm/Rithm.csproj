@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Rithm</Title>
-    <Description>Rithm is a content coordinator able to be used seemlessly in Blazor WASM sites.</Description>
+    <Description>Rithm is a simple article enging and can be used seemlessly in Blazor WASM sites.  Articles can be populated from multiple source types out of the box including json, blazor components, and markdown and can be further extended</Description>
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/BlackjacketMack/Rithm</RepositoryUrl>
     <RootNamespace>Rithm</RootNamespace>
