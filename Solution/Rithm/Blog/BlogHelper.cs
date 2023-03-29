@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Rithm.Articles.Blog
+namespace Rithm.Blog
 {
     public interface IBlogHelper
     {

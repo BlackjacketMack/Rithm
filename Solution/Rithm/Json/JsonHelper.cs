@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Rithm.Articles.Json
+namespace Rithm
 {
     internal class JsonHelper
     {

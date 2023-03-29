@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Rithm.Articles.Blog;
+using Rithm.Blog;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
-namespace Rithm.Articles.Abstract
+namespace Rithm
 {
     public class EmbeddedMarkdownIngestor : IArticleIngestor
     {

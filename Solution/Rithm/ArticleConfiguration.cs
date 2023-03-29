@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Rithm.Articles
+namespace Rithm
 {
     public class ArticleConfiguration
     {

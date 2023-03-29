@@ -1,7 +1,6 @@
-﻿using Rithm.Articles.Abstract;
-using Rithm.Articles.Interfaces;
+﻿using Rithm;
 
-namespace Rithm.Articles.Blog
+namespace Rithm.Blog
 {
     public class BlogArticle : MarkdownArticle, IArticleImage
     {

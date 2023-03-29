@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Rithm.Articles.Abstract;
-using Rithm.Articles.Blog;
-using System;
-using System.Reflection;
+using Rithm.Blog;
 
-namespace Rithm.Articles
+namespace Rithm
 {
     public static class ServiceCollectionExtensions 
     {

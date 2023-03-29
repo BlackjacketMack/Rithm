@@ -9,6 +9,7 @@
     <Description>Rithm is a content coordinator able to be used seemlessly in Blazor WASM sites.</Description>
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/BlackjacketMack/Rithm</RepositoryUrl>
+    <RootNamespace>Rithm</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

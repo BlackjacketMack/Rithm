@@ -1,4 +1,4 @@
-﻿namespace Rithm.Articles
+﻿namespace Rithm
 {
     public class ArticleHelper : IArticleHelper
     {

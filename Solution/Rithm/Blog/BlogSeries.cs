@@ -1,7 +1,4 @@
-﻿using Rithm.Articles.Abstract;
-using Rithm.Articles.Interfaces;
-
-namespace Rithm.Articles.Blog
+﻿namespace Rithm.Blog
 {
     public class BlogSeries : List<BlogArticle>
     {

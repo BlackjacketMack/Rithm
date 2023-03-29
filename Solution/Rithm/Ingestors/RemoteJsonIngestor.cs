@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Json;
 
-namespace Rithm.Articles.Abstract
+namespace Rithm
 {
     public class RemoteJsonIngestor : IArticleIngestor
     {

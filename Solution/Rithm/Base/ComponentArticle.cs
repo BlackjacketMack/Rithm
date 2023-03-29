@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Rithm.Articles.Abstract
+namespace Rithm
 {
-    public abstract class MarkdownArticle : IArticle
+    public abstract class ComponentArticle : ComponentBase, IArticle
     {
-        public string? Title { get; set; }
-        public string? Subtitle { get; set; }
+        public virtual string? Title { get; set; }
 
         /// <summary>
         /// A unique key for the article.  For blog posts this is used to generate the permalink.
         /// </summary>
-        public string Key { get; set; } = default!;
+        public virtual string Key { get; set; } = default!;
 
         /// <summary>
         /// This should be set and sealed by derived classes (e.g. BlogArticle)
@@ -31,11 +30,11 @@ namespace Rithm.Articles.Abstract
 
         public IList<string> Tags { get; set; } = new List<string>();
 
-        public MarkupString Content => LazyContent.Value;
+        public ComponentArticle()
+        {
+            Key ??= GetType().FullName!;
+        }
 
-        internal Lazy<MarkupString> LazyContent { get; set; } = new();
-
-        public Version Version { get; set; } = new Version("1.0.0.0");
 
         public override bool Equals(object? obj)
         {
