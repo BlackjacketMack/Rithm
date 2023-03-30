@@ -6,7 +6,7 @@ namespace Rithm
 {
     public static class ServiceCollectionExtensions 
     {
-        public static void AddArticles(this IServiceCollection services, Action<ArticleConfiguration>? action = null)
+        public static void AddRithm(this IServiceCollection services, Action<ArticleConfiguration>? action = null)
         {
 
             var sp = services.BuildServiceProvider();
