@@ -7,15 +7,25 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Rithm</Title>
     <Description>Rithm is a simple article enging and can be used seemlessly in Blazor WASM sites.  Articles can be populated from multiple source types out of the box including json, blazor components, and markdown and can be further extended</Description>
-    <PackageProjectUrl></PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/BlackjacketMack/Rithm</PackageProjectUrl>
     <RepositoryUrl>https://github.com/BlackjacketMack/Rithm</RepositoryUrl>
     <RootNamespace>Rithm</RootNamespace>
+    <Version>0.0.1-alpha</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MarkdownSharp" Version="2.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
