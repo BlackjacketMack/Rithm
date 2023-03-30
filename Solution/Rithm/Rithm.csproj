@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/BlackjacketMack/Rithm</PackageProjectUrl>
     <RepositoryUrl>https://github.com/BlackjacketMack/Rithm</RepositoryUrl>
     <RootNamespace>Rithm</RootNamespace>
-    <Version>0.0.1-alpha</Version>
+    <Version>0.0.2-alpha</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
