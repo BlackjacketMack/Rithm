@@ -36,8 +36,14 @@
             return articles;
         }
 
-        public async Task<IEnumerable<IArticle>> GetArticlesAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<IArticle>> GetArticlesAsync(ArticleParameters? parameters, CancellationToken cancellationToken)
         {
+            parameters ??= new ArticleParameters();
+
+            var minimumVersion = _articleConfiguration.MinimumVersion;
+            if (parameters.MinimumVersion != null)
+                minimumVersion = parameters.MinimumVersion;
+
             IEnumerable<IArticle> articles = null;
             if (_articleConfiguration.Debug)
             {
@@ -48,21 +54,18 @@
                 articles = await _lazyArticles.Value;
             }
 
-            return articles.Where(w => w.Version >= _articleConfiguration.MinimumVersion);
-        }
+            articles = articles.Where(w => w.Version >= minimumVersion);
 
-        public async Task<IArticle?> FindArticleAsync(string key, CancellationToken cancellationToken)
-        {
-            return (await GetArticlesAsync(cancellationToken)).Where(w => w.Key == key).SingleOrDefault();
-        }
+            if (parameters.Tags.Any())
+                articles = articles.Where(a => parameters.Tags.Intersect(a.Tags).Any());
 
-        public async Task<IEnumerable<IArticle>> GetArticlesByTagAsync(string tag, CancellationToken cancellationToken)
-        {
-            return (await GetArticlesAsync(cancellationToken)).Where(w => w.Tags.Contains(tag));
-        }
-        public async Task<IEnumerable<IArticle>> GetArticlesByKindAsync(string kind, CancellationToken cancellationToken)
-        {
-            return (await GetArticlesAsync(cancellationToken)).Where(w => w.Kind == kind);
+            if(parameters.Kinds.Any())
+                articles = articles.Where(a => parameters.Kinds.Contains(a.Kind));
+
+            if (parameters.Keys.Any())
+                articles = articles.Where(a => parameters.Keys.Contains(a.Key));
+
+            return articles;
         }
     }
 }
