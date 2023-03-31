@@ -15,7 +15,7 @@ namespace Rithm
         /// <summary>
         /// This should be set and sealed by derived classes (e.g. BlogArticle)
         /// </summary>
-        public virtual string Kind => "Default";
+        public virtual string Kind { get; set; } = "Default";
 
         /// <summary>
         /// The description of the article.  

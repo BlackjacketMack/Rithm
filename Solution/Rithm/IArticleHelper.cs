@@ -6,7 +6,7 @@
         async Task<T?> FindArticleAsync<T>(string key, CancellationToken cancellationToken = default) where T : class, IArticle  => (await FindArticleAsync(key, cancellationToken) as T);
         async Task<IEnumerable<T>> GetArticlesAsync<T>(CancellationToken cancellationToken = default) where T : IArticle => (await GetArticlesAsync()).OfType<T>();
         Task<IEnumerable<IArticle>> GetArticlesAsync(CancellationToken cancellationToken = default) => GetArticlesAsync(new(), cancellationToken);
-        async Task<IArticle?> FindArticleAsync(string key, CancellationToken cancellationToken)
+        async Task<IArticle?> FindArticleAsync(string key, CancellationToken cancellationToken = default)
         {
             var parameters = new ArticleParameters
             {
@@ -15,7 +15,7 @@
             return (await GetArticlesAsync(parameters,cancellationToken)).SingleOrDefault();
         }
 
-        public async Task<IEnumerable<IArticle>> GetArticlesByTagAsync(string tag, CancellationToken cancellationToken)
+        public async Task<IEnumerable<IArticle>> GetArticlesByTagAsync(string tag, CancellationToken cancellationToken = default)
         {
             var parameters = new ArticleParameters
             {
@@ -25,7 +25,7 @@
             return (await GetArticlesAsync(parameters,cancellationToken));
         }
 
-        public async Task<IEnumerable<IArticle>> GetArticlesByKindAsync(string kind, CancellationToken cancellationToken)
+        public async Task<IEnumerable<IArticle>> GetArticlesByKindAsync(string kind, CancellationToken cancellationToken = default)
         {
             var parameters = new ArticleParameters
             {

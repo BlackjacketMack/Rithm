@@ -4,7 +4,7 @@ namespace Rithm.Blog
 {
     public class BlogArticle : MarkdownArticle, IArticleImage
     {
-        public sealed override string Kind => "Posts";
+        public sealed override string Kind { get; set; } = "Posts";
 
         public override string Url => $"blog/{Key}";
 
