@@ -26,15 +26,15 @@
 
         string? Url { get => null; }
 
-        public DateTime Date { get => default;}
+        DateTime Date { get => default;}
 
-        public string? Series { get => null; }
+        string? Series { get => null; }
 
         IList<string> Tags { get => new List<string>(); }
 
         /// <summary>
         /// Intended for semantic versioning (e.g. major/minor/build/revision).
         /// </summary>
-        public Version? Version { get => new Version("1.0.0.0"); }
+        Version? Version { get => new Version("1.0.0.0"); }
     }
 }
