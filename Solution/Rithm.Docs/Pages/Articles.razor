@@ -29,7 +29,7 @@ Below is a full list of articles registered on this site:
 
 
 @code{
-    private IEnumerable<IArticle> _articles;
+    private IEnumerable<IArticle> _articles = Enumerable.Empty<IArticle>();
 
     protected override async Task OnInitializedAsync()
     {
