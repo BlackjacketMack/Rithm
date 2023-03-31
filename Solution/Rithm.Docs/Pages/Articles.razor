@@ -1,0 +1,40 @@
+﻿@page "/articles"
+@inject IArticleHelper _articleHelper
+
+<PageTitle>Articles</PageTitle>
+
+<h1>Articles</h1>
+
+Below is a full list of articles registered on this site:
+
+<MudSimpleTable>
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var article in _articles)
+        {
+            
+        <tr>
+            <td></td>
+        </tr>
+        }
+
+    </tbody>
+</MudSimpleTable>
+
+
+@code{
+    private IEnumerable<IArticle> _articles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _articles = await _articleHelper.GetArticlesAsync(CancellationToken);
+    }
+}
+
+
+
+
