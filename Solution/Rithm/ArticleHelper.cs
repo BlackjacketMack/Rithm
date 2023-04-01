@@ -8,10 +8,10 @@ namespace Rithm
         private readonly IServiceProvider _serviceProvider;
         private readonly RithmOptions _rithmOptions;
 
-        public ArticleHelper(IServiceProvider serviceProvider, IOptions<RithmOptions> rithmOptions)
+        public ArticleHelper(IServiceProvider serviceProvider, RithmOptions rithmOptions)
         {
             _serviceProvider = serviceProvider;
-            _rithmOptions = rithmOptions.Value;
+            _rithmOptions = rithmOptions;
             if (_lazyArticles == null)
                 _lazyArticles = new(() => ingestArticlesAsync());
 
@@ -20,7 +20,7 @@ namespace Rithm
         private async Task<List<IArticle>> ingestArticlesAsync()
         {
             var articles = new List<IArticle>();
-
+            Console.WriteLine(String.Concat("Ingestor Infos=",_rithmOptions.IngestorInfos.Count()));
             foreach(var ingestorInfo in _rithmOptions.IngestorInfos)
             {
                 var ingestor = _serviceProvider.GetService(ingestorInfo.IngestorType) as IArticleIngestor;
@@ -58,8 +58,11 @@ namespace Rithm
             {
                 articles = await _lazyArticles.Value;
             }
+            Console.WriteLine(articles.Count());
+            articles = await ingestArticlesAsync();
 
-            articles = articles.Where(w => w.Version >= minimumVersion);
+
+            //articles = articles.Where(w => w.Version >= minimumVersion);
 
             if (parameters.Tags.Any())
                 articles = articles.Where(a => parameters.Tags.Intersect(a.Tags).Any());

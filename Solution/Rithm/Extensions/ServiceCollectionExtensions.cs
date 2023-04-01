@@ -13,43 +13,39 @@ namespace Rithm
             var sp = services.BuildServiceProvider();
            
 
-            var articleConfiguration = createConfiguration(sp,action);
-
-
-           
-
+            var rithmOptions = createOptions(sp,action);
 
             services.AddScoped<IArticleHelper, ArticleHelper>();
             services.AddScoped<IBlogHelper, BlogHelper>();
-            services.AddScoped<RithmOptions>(sp => articleConfiguration);
+            services.AddScoped<RithmOptions>(sp => rithmOptions);
 
-            foreach(var distinctIngestorType in articleConfiguration.IngestorInfos.Select(s=>s.IngestorType).Distinct())
+            foreach(var distinctIngestorType in rithmOptions.IngestorInfos.Select(s=>s.IngestorType).Distinct())
             {
                 services.AddTransient(distinctIngestorType);
             }
         }
 
-        private static RithmOptions createConfiguration(IServiceProvider serviceProvider, Action<RithmOptions>? action)
+        private static RithmOptions createOptions(IServiceProvider serviceProvider, Action<RithmOptions>? action)
         {
-            var articleConfiguration = serviceProvider.GetRequiredService<IOptions<RithmOptions>>().Value;
+            var rithmOptions = serviceProvider.GetRequiredService<IOptions<RithmOptions>>().Value;
 
             //set defaults
-            articleConfiguration.Assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            rithmOptions.Assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
             var env = serviceProvider.GetRequiredService<IWebAssemblyHostEnvironment>();
             if (!env.IsProduction())
-                articleConfiguration.MinimumVersion = new Version(0, 0, 0, 0);
+                rithmOptions.MinimumVersion = new Version(0, 0, 0, 0);
 
             //apply any customizations
-            action?.Invoke(articleConfiguration);
+            action?.Invoke(rithmOptions);
 
-            if (articleConfiguration.AddDefaultIngestors)
+            if (rithmOptions.AddDefaultIngestors)
             {
-                articleConfiguration.AddIngestor<ComponentIngestor>()
+                rithmOptions.AddIngestor<ComponentIngestor>()
                                     .AddIngestor<EmbeddedMarkdownIngestor>();
             }
 
-            return articleConfiguration;
+            return rithmOptions;
         }
     }
 }
