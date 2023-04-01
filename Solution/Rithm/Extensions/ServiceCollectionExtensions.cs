@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Rithm.Blog;
 
 namespace Rithm
 {
     public static class ServiceCollectionExtensions 
     {
-        public static void AddRithm(this IServiceCollection services, Action<ArticleConfiguration>? action = null)
+        public static void AddRithm(this IServiceCollection services, Action<RithmOptions>? action = null)
         {
 
             var sp = services.BuildServiceProvider();
@@ -20,7 +21,7 @@ namespace Rithm
 
             services.AddScoped<IArticleHelper, ArticleHelper>();
             services.AddScoped<IBlogHelper, BlogHelper>();
-            services.AddScoped<ArticleConfiguration>(sp => articleConfiguration);
+            services.AddScoped<RithmOptions>(sp => articleConfiguration);
 
             foreach(var distinctIngestorType in articleConfiguration.IngestorInfos.Select(s=>s.IngestorType).Distinct())
             {
@@ -28,9 +29,9 @@ namespace Rithm
             }
         }
 
-        private static ArticleConfiguration createConfiguration(IServiceProvider serviceProvider, Action<ArticleConfiguration>? action)
+        private static RithmOptions createConfiguration(IServiceProvider serviceProvider, Action<RithmOptions>? action)
         {
-            var articleConfiguration = new ArticleConfiguration();
+            var articleConfiguration = serviceProvider.GetRequiredService<IOptions<RithmOptions>>().Value;
 
             //set defaults
             articleConfiguration.Assemblies = AppDomain.CurrentDomain.GetAssemblies();

@@ -4,9 +4,9 @@ namespace Rithm
 {
     public class ComponentIngestor : IArticleIngestor
     {
-        private readonly ArticleConfiguration _articleConfiguration;
+        private readonly RithmOptions _articleConfiguration;
 
-        public ComponentIngestor(ArticleConfiguration articleConfiguration)
+        public ComponentIngestor(RithmOptions articleConfiguration)
         {
             _articleConfiguration = articleConfiguration;
         }

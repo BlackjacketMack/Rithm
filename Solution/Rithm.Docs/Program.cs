@@ -5,6 +5,8 @@ using Rithm;
 using Rithm.Docs;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.Services.Configure<RithmOptions>(builder.Configuration.GetSection(nameof(RithmOptions)));
+
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 

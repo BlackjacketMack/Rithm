@@ -2,7 +2,7 @@
 
 namespace Rithm
 {
-    public class ArticleConfiguration
+    public class RithmOptions
     {
         /// <summary>
         /// Assemblies to look for component articles
@@ -29,7 +29,7 @@ namespace Rithm
         /// </summary>
         public Version MinimumVersion { get; set; } = new Version("1.0.0.0");
 
-        public ArticleConfiguration AddIngestor<TIngestor>(Action<TIngestor>? configActions = null) where TIngestor : IArticleIngestor
+        public RithmOptions AddIngestor<TIngestor>(Action<TIngestor>? configActions = null) where TIngestor : IArticleIngestor
         {
             IngestorInfos.Add(new IngestorInfo
             {

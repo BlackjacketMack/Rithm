@@ -1,24 +1,27 @@
-﻿namespace Rithm
+﻿using Microsoft.Extensions.Options;
+
+namespace Rithm
 {
     public class ArticleHelper : IArticleHelper
     {
         private static Lazy<Task<List<IArticle>>> _lazyArticles = default!;
         private readonly IServiceProvider _serviceProvider;
-        private readonly ArticleConfiguration _articleConfiguration;
+        private readonly RithmOptions _rithmOptions;
 
-        public ArticleHelper(IServiceProvider serviceProvider, ArticleConfiguration articleConfiguration)
+        public ArticleHelper(IServiceProvider serviceProvider, IOptions<RithmOptions> rithmOptions)
         {
             _serviceProvider = serviceProvider;
-            _articleConfiguration = articleConfiguration;
+            _rithmOptions = rithmOptions.Value;
             if (_lazyArticles == null)
                 _lazyArticles = new(() => ingestArticlesAsync());
+
         }
 
         private async Task<List<IArticle>> ingestArticlesAsync()
         {
             var articles = new List<IArticle>();
 
-            foreach(var ingestorInfo in _articleConfiguration.IngestorInfos)
+            foreach(var ingestorInfo in _rithmOptions.IngestorInfos)
             {
                 var ingestor = _serviceProvider.GetService(ingestorInfo.IngestorType) as IArticleIngestor;
                 if (ingestor == null)
@@ -40,12 +43,14 @@
         {
             parameters ??= new ArticleParameters();
 
-            var minimumVersion = _articleConfiguration.MinimumVersion;
+            var minimumVersion = _rithmOptions.MinimumVersion;
             if (parameters.MinimumVersion != null)
                 minimumVersion = parameters.MinimumVersion;
 
+            Console.WriteLine(minimumVersion);
+
             IEnumerable<IArticle> articles = null;
-            if (_articleConfiguration.Debug)
+            if (_rithmOptions.Debug)
             {
                 articles = await ingestArticlesAsync();
             }

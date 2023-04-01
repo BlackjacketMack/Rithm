@@ -4,10 +4,10 @@ namespace Rithm
 {
     public class RemoteJsonIngestor : IArticleIngestor
     {
-        private readonly ArticleConfiguration _articleConfiguration;
+        private readonly RithmOptions _articleConfiguration;
         private readonly HttpClient _httpClient;
 
-        public RemoteJsonIngestor(ArticleConfiguration articleConfiguration, HttpClient httpClient)
+        public RemoteJsonIngestor(RithmOptions articleConfiguration, HttpClient httpClient)
         {
             _articleConfiguration = articleConfiguration;
             _httpClient = httpClient;

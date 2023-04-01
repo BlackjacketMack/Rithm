@@ -8,9 +8,9 @@ namespace Rithm
 {
     public class EmbeddedMarkdownIngestor : IArticleIngestor
     {
-        private readonly ArticleConfiguration _articleConfiguration;
+        private readonly RithmOptions _articleConfiguration;
 
-        public EmbeddedMarkdownIngestor(ArticleConfiguration articleConfiguration)
+        public EmbeddedMarkdownIngestor(RithmOptions articleConfiguration)
         {
             _articleConfiguration = articleConfiguration;
         }
