@@ -33,7 +33,7 @@ namespace Rithm
             rithmOptions.Assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
             var env = serviceProvider.GetRequiredService<IWebAssemblyHostEnvironment>();
-            if (!env.IsProduction())
+            if (!env.IsProduction() && rithmOptions.MinimumVersion == null)
                 rithmOptions.MinimumVersion = new Version(0, 0, 0, 0);
 
             //apply any customizations

@@ -47,7 +47,7 @@ namespace Rithm
             if (parameters.MinimumVersion != null)
                 minimumVersion = parameters.MinimumVersion;
 
-            Console.WriteLine(minimumVersion);
+            Console.WriteLine("RithmOptions.MinimumVersion=" + _rithmOptions.MinimumVersion);
 
             IEnumerable<IArticle> articles = null;
             if (_rithmOptions.Debug)
