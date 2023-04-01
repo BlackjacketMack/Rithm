@@ -58,11 +58,8 @@ namespace Rithm
             {
                 articles = await _lazyArticles.Value;
             }
-            Console.WriteLine(articles.Count());
-            articles = await ingestArticlesAsync();
 
-
-            //articles = articles.Where(w => w.Version >= minimumVersion);
+            articles = articles.Where(w => w.Version >= minimumVersion);
 
             if (parameters.Tags.Any())
                 articles = articles.Where(a => parameters.Tags.Intersect(a.Tags).Any());
