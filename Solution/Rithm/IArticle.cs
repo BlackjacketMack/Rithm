@@ -32,6 +32,8 @@
 
         IList<string> Tags { get => new List<string>(); }
 
+        IList<string> Categories { get => new List<string>(); }
+
         /// <summary>
         /// Intended for semantic versioning (e.g. major/minor/build/revision).
         /// </summary>
