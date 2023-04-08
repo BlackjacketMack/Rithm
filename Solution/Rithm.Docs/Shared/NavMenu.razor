@@ -2,10 +2,29 @@
     <MudNavMenu Dense="true">
         <MudText Typo="Typo.h6" Class="px-4">Documentation</MudText>
         <MudDivider Class="my-2" />
-        <MudNavLink Href="/getting-started">Getting Started</MudNavLink>
+
+        <MudNavGroup Title="Getting Started">
+            @foreach (var article in _gettingStartedArticles)
+            {
+                var key = $"/{article.Key}";
+                <MudNavLink Href="@key">@article.Title</MudNavLink>
+            }
+        </MudNavGroup>
+
         <MudNavLink Href="/articles">Articles</MudNavLink>
+
+        
     </MudNavMenu>
 </MudPaper>
 
 @code {
+    [Inject]
+    private IArticleHelper _articleHelper { get; set; } = default!;
+
+    private IEnumerable<IArticle> _gettingStartedArticles = Enumerable.Empty<IArticle>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _gettingStartedArticles = await _articleHelper.GetArticlesByCategoryAsync("getting-started");
+    }
 }

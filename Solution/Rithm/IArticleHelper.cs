@@ -34,6 +34,16 @@
 
             return (await GetArticlesAsync(parameters, cancellationToken));
         }
+
+        public async Task<IEnumerable<IArticle>> GetArticlesByCategoryAsync(string category, CancellationToken cancellationToken = default)
+        {
+            var parameters = new ArticleParameters
+            {
+                Categories = new[] { category }
+            };
+
+            return (await GetArticlesAsync(parameters, cancellationToken));
+        }
         #endregion
 
 

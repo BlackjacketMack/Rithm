@@ -70,6 +70,9 @@ namespace Rithm
             if (parameters.Keys.Any())
                 articles = articles.Where(a => parameters.Keys.Contains(a.Key));
 
+            if (parameters.Categories.Any())
+                articles = articles.Where(a => parameters.Categories.Contains(a.Key));
+
             return articles;
         }
     }

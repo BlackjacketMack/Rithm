@@ -29,6 +29,10 @@ Below is a full list of articles registered on this site:
 
 
 @code{
+
+    [Parameter]
+    public string ArticleKey{ get; set; }
+
     private IEnumerable<IArticle> _articles = Enumerable.Empty<IArticle>();
 
     protected override async Task OnInitializedAsync()

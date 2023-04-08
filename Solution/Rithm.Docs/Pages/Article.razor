@@ -1,0 +1,28 @@
+﻿@page "/{key}"
+@inject IArticleHelper _articleHelper
+
+@if (_article == null) return;
+
+<PageTitle>Article</PageTitle>
+
+<h1>@_article.Title</h1>
+
+<div>
+    
+</div>
+
+@code{
+    [Parameter]
+    public string Key { get; set; } = default!;
+
+    private IArticle? _article;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _article = await _articleHelper.FindArticleAsync(Key);
+    }
+}
+
+
+
+
