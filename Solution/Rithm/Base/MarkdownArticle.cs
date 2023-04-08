@@ -37,6 +37,8 @@ namespace Rithm
 
         public Version Version { get; set; } = new Version("1.0.0.0");
 
+        public IList<string> Categories { get; set; } = new List<string>();
+
         public override bool Equals(object? obj)
         {
             if (obj == null || GetType() != obj.GetType())
