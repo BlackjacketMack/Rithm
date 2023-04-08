@@ -4,8 +4,8 @@ namespace Rithm
 {
     public class RemoteJsonIngestor : IArticleIngestor
     {
-        private readonly RithmOptions _articleConfiguration;
-        private readonly HttpClient _httpClient;
+        private readonly RithmOptions _articleConfiguration = default!;
+        private readonly HttpClient _httpClient = default!;
 
         public RemoteJsonIngestor(RithmOptions articleConfiguration, HttpClient httpClient)
         {
@@ -20,7 +20,7 @@ namespace Rithm
         public virtual async Task<IEnumerable<IArticle>> GetArticlesAsync(CancellationToken cancellationToken)
         {
 
-            var jsonArticles = (await _httpClient.GetFromJsonAsync(_jsonUrl, _articleType, cancellationToken) as IEnumerable<IArticle>);
+            var jsonArticles = (await _httpClient.GetFromJsonAsync(_jsonUrl, _articleType, cancellationToken) as IEnumerable<IArticle>)!;
 
             Console.WriteLine(jsonArticles.Count());
 

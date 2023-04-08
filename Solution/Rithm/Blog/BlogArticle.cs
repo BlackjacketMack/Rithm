@@ -20,7 +20,11 @@ namespace Rithm.Blog
         public bool Draft
         {
             get => base.Version.Major < 1;
-            set => base.Version = new Version(0,base.Version.Minor,base.Version.Build,base.Version.Revision);
+            set{
+                if(value)
+                    base.Version = new Version(0,base.Version.Minor,base.Version.Build,base.Version.Revision);
+                
+            }
         }
     }
 }
