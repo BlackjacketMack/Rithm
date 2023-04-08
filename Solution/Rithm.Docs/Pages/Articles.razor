@@ -11,6 +11,7 @@ Below is a full list of articles registered on this site:
     <thead>
         <tr>
             <th>Name</th>
+            <th>Type</th>
         </tr>
     </thead>
     <tbody>
@@ -21,6 +22,7 @@ Below is a full list of articles registered on this site:
             <td>@article.Title
                 <div><MudText Typo="@Typo.caption">@article.Key</MudText></div>
             </td>
+            <td>@article.GetType()</td>
         </tr>
         }
 

@@ -7,7 +7,7 @@ namespace Rithm
 {
     public static class ServiceCollectionExtensions 
     {
-        public static void AddRithm(this IServiceCollection services, Action<RithmOptions>? action = null)
+        public static IServiceCollection AddRithm(this IServiceCollection services, Action<RithmOptions>? action = null)
         {
 
             var sp = services.BuildServiceProvider();
@@ -23,6 +23,8 @@ namespace Rithm
             {
                 services.AddTransient(distinctIngestorType);
             }
+
+            return services;
         }
 
         private static RithmOptions createOptions(IServiceProvider serviceProvider, Action<RithmOptions>? action)
@@ -41,8 +43,7 @@ namespace Rithm
 
             if (rithmOptions.AddDefaultIngestors)
             {
-                rithmOptions.AddIngestor<ComponentIngestor>()
-                                    .AddIngestor<EmbeddedMarkdownIngestor>();
+                rithmOptions.AddIngestor<ComponentIngestor>();
             }
 
             return rithmOptions;

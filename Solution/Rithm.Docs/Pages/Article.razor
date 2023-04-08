@@ -5,21 +5,19 @@
 
 <PageTitle>Article</PageTitle>
 
-<h1>@_article.Title</h1>
-
 <div>
-    
+    @_article.Content
 </div>
 
 @code{
     [Parameter]
     public string Key { get; set; } = default!;
 
-    private IArticle? _article;
+    private DocumentationArticle? _article;
 
     protected override async Task OnInitializedAsync()
     {
-        _article = await _articleHelper.FindArticleAsync(Key);
+        _article = await _articleHelper.FindArticleAsync<DocumentationArticle>(Key);
     }
 }
 

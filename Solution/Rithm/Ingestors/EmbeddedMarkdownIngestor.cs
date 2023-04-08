@@ -10,9 +10,18 @@ namespace Rithm
     {
         private readonly RithmOptions _rithmOptions;
 
+        private Type _articleType = typeof(BlogArticle);
+
         public EmbeddedMarkdownIngestor(RithmOptions rithmOptions)
         {
             _rithmOptions = rithmOptions;
+        }
+
+        public EmbeddedMarkdownIngestor WithType<T>()
+        {
+            _articleType = typeof(T);
+
+            return this;
         }
 
         public Task<IEnumerable<IArticle>> GetArticlesAsync(CancellationToken cancellationToken)
@@ -36,18 +45,17 @@ namespace Rithm
                         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                         WriteIndented = true
                     };
+                    var markdownArticle = JsonSerializer.Deserialize(frontMatter, _articleType, serializeOptions) as MarkdownArticle;
 
-                    var embeddedArticle = JsonSerializer.Deserialize(frontMatter, typeof(BlogArticle), serializeOptions) as BlogArticle;
+                    if (markdownArticle == null) continue;
 
-                    if (embeddedArticle == null) continue;
-
-                    embeddedArticle.LazyContent = new Lazy<MarkupString>(() =>
+                    markdownArticle.LazyContent = new Lazy<MarkupString>(() =>
                     {
                         var markdown = new MarkdownSharp.Markdown().Transform(content);
                         return new MarkupString(markdown);
                     });
 
-                    embeddedArticles.Add(embeddedArticle);
+                    embeddedArticles.Add(markdownArticle);
                 }
             }
 
