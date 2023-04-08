@@ -8,17 +8,17 @@ namespace Rithm
 {
     public class EmbeddedMarkdownIngestor : IArticleIngestor
     {
-        private readonly RithmOptions _articleConfiguration;
+        private readonly RithmOptions _rithmOptions;
 
-        public EmbeddedMarkdownIngestor(RithmOptions articleConfiguration)
+        public EmbeddedMarkdownIngestor(RithmOptions rithmOptions)
         {
-            _articleConfiguration = articleConfiguration;
+            _rithmOptions = rithmOptions;
         }
 
         public Task<IEnumerable<IArticle>> GetArticlesAsync(CancellationToken cancellationToken)
         {
             var embeddedArticles = new List<IArticle>();
-            foreach (var assembly in _articleConfiguration.Assemblies)
+            foreach (var assembly in _rithmOptions.Assemblies)
             {
                 //load .md article types
                 var markdownResources = assembly.GetManifestResourceNames().Where(w => w.EndsWith(".md"));
@@ -52,11 +52,6 @@ namespace Rithm
             }
 
             return Task.FromResult(embeddedArticles.AsEnumerable());
-        }
-
-        public Task LoadArticle(IArticle article, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
         }
 
         private (string? frontMatter, string? content) parseEmbeddedResource(Assembly assembly, string resourceName)
