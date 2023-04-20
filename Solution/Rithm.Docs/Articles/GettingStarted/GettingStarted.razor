@@ -1,0 +1,25 @@
+﻿@page "/getting-started/{key}"
+@inject IArticleHelper _articleHelper
+
+@if (_article == null) return;
+
+<PageTitle>Article</PageTitle>
+<div>
+    @_article.Content
+</div>
+
+@code{
+    [Parameter]
+    public string Key { get; set; } = default!;
+
+    private DocumentationArticle? _article;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _article = await _articleHelper.FindArticleAsync<DocumentationArticle>($"getting-started-{Key}");
+    }
+}
+
+
+
+

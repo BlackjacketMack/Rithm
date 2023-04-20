@@ -1,12 +1,12 @@
 ﻿---
 {
     "title": "Installation",
-    "key":  "getting-started",
+    "key":  "getting-started-installation",
     "categories":["getting-started"]
 }
 ---
 
-# Getting Started
+# Installation
 
 <section>
 

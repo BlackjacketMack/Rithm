@@ -4,27 +4,14 @@
         <MudDivider Class="my-2" />
 
         <MudNavGroup Title="Getting Started">
-            @foreach (var article in _gettingStartedArticles)
-            {
-                var key = $"/{article.Key}";
-                <MudNavLink Href="@key">@article.Title</MudNavLink>
-            }
+            <MudNavLink Href="/getting-started/installation">Installation</MudNavLink>
         </MudNavGroup>
 
         <MudNavLink Href="/articles">Articles</MudNavLink>
-
-        
     </MudNavMenu>
 </MudPaper>
 
 @code {
     [Inject]
     private IArticleHelper _articleHelper { get; set; } = default!;
-
-    private IEnumerable<IArticle> _gettingStartedArticles = Enumerable.Empty<IArticle>();
-
-    protected override async Task OnInitializedAsync()
-    {
-        _gettingStartedArticles = await _articleHelper.GetArticlesByCategoryAsync("getting-started");
-    }
 }
