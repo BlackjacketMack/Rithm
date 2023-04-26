@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rithm.Docs", "Rithm.Docs\Ri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rithm", "Rithm\Rithm.csproj", "{921276E2-9CE1-4054-A20D-0B7B018841E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rithm.Tests", "Rithm.Tests\Rithm.Tests.csproj", "{BE339169-563B-4FDA-93C5-6D03EBAD445F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{57941F87-074B-4437-806E-4EE62032C4A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +25,16 @@ Global
 		{921276E2-9CE1-4054-A20D-0B7B018841E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{921276E2-9CE1-4054-A20D-0B7B018841E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{921276E2-9CE1-4054-A20D-0B7B018841E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE339169-563B-4FDA-93C5-6D03EBAD445F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE339169-563B-4FDA-93C5-6D03EBAD445F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE339169-563B-4FDA-93C5-6D03EBAD445F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE339169-563B-4FDA-93C5-6D03EBAD445F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BE339169-563B-4FDA-93C5-6D03EBAD445F} = {57941F87-074B-4437-806E-4EE62032C4A3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4694D90-A42D-43C2-A663-CC800AC753EC}
