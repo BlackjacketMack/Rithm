@@ -1,4 +1,5 @@
-﻿using Rithm.Blog;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Rithm.Blog;
 using Rithm.Documentation;
 
 namespace Rithm
@@ -8,6 +9,7 @@ namespace Rithm
         public static RithmOptions AddBlog(this RithmOptions options)
         {
             options.AddIngestor<EmbeddedMarkdownIngestor>(ing=>ing.WithType<BlogArticle>());
+            options.ServiceCollection.AddScoped<IBlogHelper, BlogHelper>();
 
             return options;
         }

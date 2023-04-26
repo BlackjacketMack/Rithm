@@ -7,24 +7,24 @@ namespace Rithm
 {
     public static class ServiceCollectionExtensions 
     {
-        public static IServiceCollection AddRithm(this IServiceCollection services, Action<RithmOptions>? action = null)
+        public static IServiceCollection AddRithm(this IServiceCollection serviceCollection, Action<RithmOptions>? action = null)
         {
 
-            var sp = services.BuildServiceProvider();
+            var sp = serviceCollection.BuildServiceProvider();
            
 
             var rithmOptions = createOptions(sp,action);
+            rithmOptions.ServiceCollection = serviceCollection;
 
-            services.AddScoped<IArticleHelper, ArticleHelper>();
-            services.AddScoped<IBlogHelper, BlogHelper>();
-            services.AddScoped<RithmOptions>(sp => rithmOptions);
+            serviceCollection.AddScoped<IArticleHelper, ArticleHelper>();
+            serviceCollection.AddScoped<RithmOptions>(sp => rithmOptions);
 
             foreach(var distinctIngestorType in rithmOptions.IngestorInfos.Select(s=>s.IngestorType).Distinct())
             {
-                services.AddTransient(distinctIngestorType);
+                serviceCollection.AddTransient(distinctIngestorType);
             }
 
-            return services;
+            return serviceCollection;
         }
 
         private static RithmOptions createOptions(IServiceProvider serviceProvider, Action<RithmOptions>? action)

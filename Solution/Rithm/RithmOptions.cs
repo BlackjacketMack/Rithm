@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Rithm
 {
@@ -28,6 +29,11 @@ namespace Rithm
         /// a major version of 1 or greater.  Less than 1 equates to a 'draft'.
         /// </summary>
         public Version MinimumVersion { get; set; } = new Version("1.0.0.0");
+
+        /// <summary>
+        /// Set in the bootstrapping process and available for registering services
+        /// </summary>
+        internal IServiceCollection ServiceCollection { get; set; } = default!;
 
         public RithmOptions AddIngestor<TIngestor>(Action<TIngestor>? configActions = null) where TIngestor : IArticleIngestor
         {
