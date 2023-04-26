@@ -10,11 +10,9 @@ namespace Rithm
         public static IServiceCollection AddRithm(this IServiceCollection serviceCollection, Action<RithmOptions>? action = null)
         {
 
-            var sp = serviceCollection.BuildServiceProvider();
            
 
-            var rithmOptions = createOptions(sp,action);
-            rithmOptions.ServiceCollection = serviceCollection;
+            var rithmOptions = createOptions(serviceCollection, action);
 
             serviceCollection.AddScoped<IArticleHelper, ArticleHelper>();
             serviceCollection.AddScoped<RithmOptions>(sp => rithmOptions);
@@ -27,9 +25,12 @@ namespace Rithm
             return serviceCollection;
         }
 
-        private static RithmOptions createOptions(IServiceProvider serviceProvider, Action<RithmOptions>? action)
+        private static RithmOptions createOptions(IServiceCollection serviceCollection, Action<RithmOptions>? action)
         {
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+
             var rithmOptions = serviceProvider.GetRequiredService<IOptions<RithmOptions>>().Value;
+            rithmOptions.ServiceCollection = serviceCollection;
 
             //set defaults
             rithmOptions.Assemblies = AppDomain.CurrentDomain.GetAssemblies();
