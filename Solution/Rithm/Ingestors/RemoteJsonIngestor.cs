@@ -15,10 +15,11 @@ namespace Rithm
 
         private string? _jsonUrl;
 
-        public Type? _articleType;
+        public Type _articleType = default!;
 
         public virtual async Task<IEnumerable<IArticle>> GetArticlesAsync(CancellationToken cancellationToken)
         {
+            if (_articleType == null) throw new ApplicationException("This type of ingestor requies WithType to set the deserialization type.");
 
             var jsonArticles = (await _httpClient.GetFromJsonAsync(_jsonUrl, _articleType, cancellationToken) as IEnumerable<IArticle>)!;
 

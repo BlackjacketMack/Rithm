@@ -49,7 +49,7 @@ namespace Rithm
 
             Console.WriteLine("RithmOptions.MinimumVersion=" + _rithmOptions.MinimumVersion);
 
-            IEnumerable<IArticle> articles = null;
+            IEnumerable<IArticle> articles = null!;
             if (_rithmOptions.Debug)
             {
                 articles = await ingestArticlesAsync();

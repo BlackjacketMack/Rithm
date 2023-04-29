@@ -11,6 +11,8 @@ namespace Rithm.Blog
         public virtual string Slug {get => Key; set => Key = value;}
 
         public string? Image { get; set; }
+        public string? ImageCaption { get; set; }
+        public string? ImageCredit { get; set; }
 
         public string? Series { get; set; }
 
