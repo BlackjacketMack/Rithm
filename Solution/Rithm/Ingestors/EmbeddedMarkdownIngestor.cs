@@ -11,15 +11,28 @@ namespace Rithm
         private readonly RithmOptions _rithmOptions;
 
         private Type _articleType = typeof(BlogArticle);
+        private JsonSerializerOptions _serializerOptions;
 
         public EmbeddedMarkdownIngestor(RithmOptions rithmOptions)
         {
             _rithmOptions = rithmOptions;
+            _serializerOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            };
         }
 
         public EmbeddedMarkdownIngestor WithType<T>()
         {
             _articleType = typeof(T);
+
+            return this;
+        }
+
+        public EmbeddedMarkdownIngestor WithJsonSerializerOptions(JsonSerializerOptions serializerOptions)
+        {
+            _serializerOptions = serializerOptions;
 
             return this;
         }
@@ -39,13 +52,8 @@ namespace Rithm
                     var content = parseResult.content;
 
                     if (frontMatter == null) continue;
-
-                    var serializeOptions = new JsonSerializerOptions
-                    {
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                        WriteIndented = true
-                    };
-                    var markdownArticle = JsonSerializer.Deserialize(frontMatter, _articleType, serializeOptions) as MarkdownArticle;
+                    
+                    var markdownArticle = JsonSerializer.Deserialize(frontMatter, _articleType, _serializerOptions) as MarkdownArticle;
 
                     if (markdownArticle == null) continue;
 

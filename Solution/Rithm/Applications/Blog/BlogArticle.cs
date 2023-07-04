@@ -1,8 +1,9 @@
 ﻿using Rithm;
+using Rithm.Models;
 
 namespace Rithm.Blog
 {
-    public class BlogArticle : MarkdownArticle, IArticleImage
+    public class BlogArticle : MarkdownArticle, IArticleImage2
     {
         public sealed override string Kind { get; set; } = "Posts";
 
@@ -10,9 +11,9 @@ namespace Rithm.Blog
 
         public virtual string Slug {get => Key; set => Key = value;}
 
-        public string? Image { get; set; }
-        public string? ImageCaption { get; set; }
-        public string? ImageCredit { get; set; }
+        public ArticleImage? Image { get; set; }
+        //public string? ImageCaption { get; set; }
+        //public string? ImageCredit { get; set; }
 
         public string? Series { get; set; }
 

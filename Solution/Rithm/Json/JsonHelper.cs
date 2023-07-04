@@ -1,16 +1,19 @@
 ﻿using System.Text.Json;
 
-namespace Rithm
+namespace Rithm;
+
+internal class JsonHelper
 {
-    internal class JsonHelper
+    public static JsonSerializerOptions GetJsonSerializerOptions()
     {
-        public static JsonSerializerOptions GetJsonSerializerOptions()
+        var options = new JsonSerializerOptions
         {
-            return new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
-        }
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true,
+        };
+
+        options.Converters.Add(new ArticleImageConverter());
+
+        return options;
     }
 }
