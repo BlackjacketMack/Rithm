@@ -12,9 +12,17 @@ namespace Rithm
         /// </summary>
         public static RithmOptions AddBlog(this RithmOptions options, JsonSerializerOptions? serializerOptions = null) => AddBlog<BlogArticle>(options, serializerOptions);
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="options"></param>
+        /// <param name="serializerOptions">Provide serializer options or use the default ones found in JsonHelper.GetJsonSerializerOptions</param>
+        /// <returns></returns>
         public static RithmOptions AddBlog<T>(this RithmOptions options, JsonSerializerOptions? serializerOptions = null) where T : BlogArticle
         {
+            serializerOptions ??= JsonHelper.GetJsonSerializerOptions();
+
             options.AddIngestor<EmbeddedMarkdownIngestor>(ing =>
             {
                 ing.WithType<T>();

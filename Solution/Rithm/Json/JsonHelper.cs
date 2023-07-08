@@ -2,7 +2,7 @@
 
 namespace Rithm;
 
-internal class JsonHelper
+public class JsonHelper
 {
     public static JsonSerializerOptions GetJsonSerializerOptions()
     {
