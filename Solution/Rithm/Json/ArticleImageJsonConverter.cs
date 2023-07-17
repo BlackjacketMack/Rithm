@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace Rithm;
 
-internal class ArticleImageConverter : RithmJsonConverter<ArticleImage>
+internal class ArticleImageJsonConverter : RithmJsonConverter<ArticleImage>
 {
     public override ArticleImage? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

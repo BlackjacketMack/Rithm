@@ -12,7 +12,7 @@ public class JsonHelper
             WriteIndented = true,
         };
 
-        options.Converters.Add(new ArticleImageConverter());
+        options.Converters.Add(new ArticleImageJsonConverter());
 
         return options;
     }

@@ -19,7 +19,7 @@ namespace Rithm.Tests
         public void Setup()
         {
             _options.PropertyNameCaseInsensitive = true;
-            _options.Converters.Add(new ArticleImageConverter());
+            _options.Converters.Add(new ArticleImageJsonConverter());
         }
 
         private string serialize<T>(T obj)
