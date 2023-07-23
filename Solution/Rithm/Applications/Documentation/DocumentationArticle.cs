@@ -2,11 +2,9 @@
 
 namespace Rithm.Documentation
 {
-    public class DocumentationArticle : MarkdownArticle, IArticleImage
+    public class DocumentationArticle : MarkdownArticle
     {
         public sealed override string Kind { get; set; } = "Docs";
-
-        public string? Image { get; set; }
 
         /// <summary>
         /// Draft sets the major version to 0.

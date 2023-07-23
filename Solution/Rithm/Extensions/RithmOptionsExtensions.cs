@@ -15,22 +15,23 @@ namespace Rithm
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TBlogArticle"></typeparam>
         /// <param name="options"></param>
         /// <param name="serializerOptions">Provide serializer options or use the default ones found in JsonHelper.GetJsonSerializerOptions</param>
         /// <returns></returns>
-        public static RithmOptions AddBlog<T>(this RithmOptions options, JsonSerializerOptions? serializerOptions = null) where T : BlogArticle
+        public static RithmOptions AddBlog<TBlogArticle>(this RithmOptions options, JsonSerializerOptions? serializerOptions = null) where TBlogArticle : BlogArticle
         {
             serializerOptions ??= JsonHelper.GetJsonSerializerOptions();
 
             options.AddIngestor<EmbeddedMarkdownIngestor>(ing =>
             {
-                ing.WithType<T>();
+                ing.WithType<TBlogArticle>();
 
                 if(serializerOptions != null)
                     ing.WithJsonSerializerOptions(serializerOptions);
             });
             options.ServiceCollection.AddScoped<IBlogHelper, BlogHelper>();
+            options.ServiceCollection.AddScoped<IBlogHelper<TBlogArticle>, BlogHelper<TBlogArticle>>();
 
             return options;
         }

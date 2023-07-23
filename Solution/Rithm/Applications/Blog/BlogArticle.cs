@@ -1,5 +1,4 @@
-﻿using Rithm;
-using Rithm.Models;
+﻿using Rithm.Models;
 
 namespace Rithm.Blog
 {
