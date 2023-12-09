@@ -50,7 +50,7 @@ namespace Rithm
 
 
         Task<IEnumerable<IArticle>> GetArticlesAsync(ArticleParameters parameters, CancellationToken cancellationToken = default);
-        Task<IEnumerable<ArticleSearchResult>> SearchArticlesAsync(ArticleSearchParameters? parameters, CancellationToken cancellationToken);
-        Task<IEnumerable<ArticleSearchResult>> SearchArticlesAsync(ArticleSearchParameters? parameters, IEnumerable<IArticle> articlesToSearch, CancellationToken cancellationToken);
+        Task<IEnumerable<ArticleSearchResult>> SearchArticlesAsync(ArticleSearchParameters parameters, CancellationToken cancellationToken);
+        Task<IEnumerable<ArticleSearchResult>> SearchArticlesAsync(ArticleSearchParameters parameters, IEnumerable<IArticle> articlesToSearch, CancellationToken cancellationToken);
     }
 }

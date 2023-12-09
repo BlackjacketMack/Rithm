@@ -79,7 +79,7 @@ namespace Rithm
             return articles;
         }
 
-        public async Task<IEnumerable<ArticleSearchResult>> SearchArticlesAsync(ArticleSearchParameters? parameters, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ArticleSearchResult>> SearchArticlesAsync(ArticleSearchParameters parameters, CancellationToken cancellationToken)
         {
             var allArticles = (await GetArticlesAsync(new(), cancellationToken))
                                 .OrderByDescending(a => a.Date);
@@ -87,7 +87,7 @@ namespace Rithm
             return await SearchArticlesAsync(parameters, allArticles, cancellationToken);
         }
 
-        public async Task<IEnumerable<ArticleSearchResult>> SearchArticlesAsync(ArticleSearchParameters? parameters, IEnumerable<IArticle> articlesToSearch, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ArticleSearchResult>> SearchArticlesAsync(ArticleSearchParameters parameters, IEnumerable<IArticle> articlesToSearch, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
 
@@ -114,9 +114,10 @@ namespace Rithm
 
                 var articleSearchResult = new ArticleSearchResult();
                 articleSearchResult.Article = article;
+                articleSearchResult.Score = matches.Count();
 
                 //add each match
-                foreach (Match match in matches)
+                foreach (Match match in matches.Take(parameters.MatchLimit))
                 {
                     var matchIndex = match.Index;
 

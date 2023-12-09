@@ -31,11 +31,13 @@
                     </div>
                     <div class="ml-auto">
                         <MudText Typo="@Typo.caption">@article.Date.ToShortDateString()</MudText>
+                        <br />
+                        Search score: @articleSearchResult.Score
                     </div>
                 </div>
                 @foreach(var match in articleSearchResult.Matches)
                 {
-                    <MudText @key="article" Class="ma-2">
+                    <MudText @key="match.GetHashCode()" Class="ma-2">
                         <MudHighlighter Text="@match.Phrase"
                                         HighlightedText="@Query"
                                         UntilNextBoundary="false"
