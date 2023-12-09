@@ -1,4 +1,6 @@
-﻿namespace Rithm
+﻿using Rithm.Models;
+
+namespace Rithm
 {
     public interface IArticleHelper
     {
@@ -48,5 +50,7 @@
 
 
         Task<IEnumerable<IArticle>> GetArticlesAsync(ArticleParameters parameters, CancellationToken cancellationToken = default);
+        Task<IEnumerable<ArticleSearchResult>> SearchArticlesAsync(ArticleSearchParameters? parameters, CancellationToken cancellationToken);
+        Task<IEnumerable<ArticleSearchResult>> SearchArticlesAsync(ArticleSearchParameters? parameters, IEnumerable<IArticle> articlesToSearch, CancellationToken cancellationToken);
     }
 }

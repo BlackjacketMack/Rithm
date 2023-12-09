@@ -1,19 +1,26 @@
 ﻿@page "/search/{query?}"
+@using Rithm.Models
 @layout MainLayout
 @inject IArticleHelper _articleHelper
 
 
-@if (!_articles.Any())
+@if (!_articleSearchResults.Any())
 {
     <p>No results found</p>
     return;
+}
+@foreach (var articleSearchResult in _articleSearchResults)
+{
+    <div>@articleSearchResult.Article.Key</div>
 }
 
 <div class="mt-8">
     
     <div>
-        @foreach (var article in _articles)
+        @foreach (var articleSearchResult in _articleSearchResults)
         {
+            var article = articleSearchResult.Article;
+
             <div class="mb-4">
                 <div class="d-flex">
                     <div>
@@ -26,13 +33,17 @@
                         <MudText Typo="@Typo.caption">@article.Date.ToShortDateString()</MudText>
                     </div>
                 </div>
-                <MudText @key="article" Class="ma-2">
-                    <MudHighlighter Text="@article.Description"
-                                    HighlightedText="@Query"
-                                    UntilNextBoundary="false"
-                                    CaseSensitive="false"
-                                    Markup="true" />
-                </MudText>
+                @foreach(var match in articleSearchResult.Matches)
+                {
+                    <MudText @key="article" Class="ma-2">
+                        <MudHighlighter Text="@match.Phrase"
+                                        HighlightedText="@Query"
+                                        UntilNextBoundary="false"
+                                        CaseSensitive="false"
+                                        Markup="true" />
+                    </MudText>
+                })
+                
             </div>
             <MudDivider Class="mb-4" />
         }
@@ -52,7 +63,7 @@
     private int _pageSize = 5;
     private int _pageCount;
 
-    private IEnumerable<IArticle> _articles = Enumerable.Empty<IArticle>();
+    private IEnumerable<ArticleSearchResult> _articleSearchResults = Enumerable.Empty<ArticleSearchResult>();
 
     protected override async Task OnParametersSetAsync()
     {
@@ -69,18 +80,12 @@
     {
         if(String.IsNullOrWhiteSpace(Query)) return;
 
-        var allArticles = await _articleHelper.GetArticlesAsync();
-        var filteredArticles = allArticles.Where(a => 
-                                           //!a.IsDraft() &&
-                                            (a.Title?.Contains(Query, StringComparison.OrdinalIgnoreCase) ?? false) ||
-                                           (a.Description?.Contains(Query, StringComparison.OrdinalIgnoreCase) ?? false) ||
-                                           (a is MarkdownArticle asMarkdownArticle && asMarkdownArticle.Content.ToString().Contains(Query, StringComparison.OrdinalIgnoreCase)))
-                               .OrderByDescending(a => a.Date);
+        var filteredArticles = await _articleHelper.SearchArticlesAsync(new Models.ArticleSearchParameters { Keywords = Query }, default);
 
         _pageCount = (int)Math.Ceiling((double)filteredArticles.Count() / _pageSize);
 
         var skip = (_pageNumber - 1) * _pageSize;
-        _articles = filteredArticles
+        _articleSearchResults = filteredArticles
                         .Skip(skip)
                         .Take(_pageSize);
 

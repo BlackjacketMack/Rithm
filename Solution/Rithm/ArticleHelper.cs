@@ -110,7 +110,13 @@ namespace Rithm
                 var searchString = sb.ToString();
                 var matches = Regex.Matches(searchString, parameters.Keywords, RegexOptions.IgnoreCase);
 
-                foreach(Match match in matches)
+                if (!matches.Any()) continue;
+
+                var articleSearchResult = new ArticleSearchResult();
+                articleSearchResult.Article = article;
+
+                //add each match
+                foreach (Match match in matches)
                 {
                     var matchIndex = match.Index;
 
@@ -124,16 +130,14 @@ namespace Rithm
                         end = sb.Length;
 
                     var phrase = searchString.Substring(start, end - start);
-
-                    var articleSearchResult = new ArticleSearchResult();
-                    articleSearchResult.Article = article;
+                    
                     articleSearchResult.Matches.Add(new ArticleSearchMatch()
                     {
                         Phrase = phrase
                     });
-
-                    results.Add(articleSearchResult);
                 }
+
+                results.Add(articleSearchResult);
             }
 
             return results;
