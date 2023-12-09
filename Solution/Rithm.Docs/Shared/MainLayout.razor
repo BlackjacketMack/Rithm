@@ -1,5 +1,6 @@
 ﻿@using MudBlazor.Utilities;
 @inherits LayoutComponentBase
+@inject NavigationManager _navigationManager;
 
 <MudThemeProvider Theme="@_theme" />
 <MudDialogProvider/>
@@ -10,6 +11,13 @@
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <a href="/" style="color:white !important;"><MudText Typo="Typo.h5" Class="ml-3 logo-text">Rithm <span class="logo-subtext">(docs)</span></MudText></a>
         <MudSpacer />
+        <MudButton StartIcon="@Icons.Material.Filled.Search" Class="ml-0" Color="Color.Inherit" IconClass="mx-auto" OnClick="showSearchClicked" />
+        @if (_searchVisible)
+        {
+            <div class="flex-grow-1">
+                <MudTextField @bind-Value="@_search" @bind-Value:after="@searchChanged" Label="Search" Variant="Variant.Filled" Style="background-color: var(--mud-palette-primary-lighten);" Margin="@Margin.Dense"></MudTextField>
+            </div>
+        }
         <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Href="https://github.com/BlackjacketMack/Rithm" />
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
@@ -22,6 +30,8 @@
 
 @code {
     bool _drawerOpen = true;
+    private string _search;
+    private bool _searchVisible;
 
     void DrawerToggle()
     {
@@ -65,5 +75,17 @@
             Palette.SecondaryLighten = Palette.Secondary.ColorLighten(.16).Value;
             Palette.TertiaryLighten = Palette.Tertiary.ColorLighten(.16).Value;
         }
+    }
+
+    private void searchChanged()
+    {
+        if (_search == null) return;
+
+        _navigationManager.NavigateTo($"/search/{_search}");
+    }
+
+    private void showSearchClicked()
+    {
+        _searchVisible = !_searchVisible;
     }
 }

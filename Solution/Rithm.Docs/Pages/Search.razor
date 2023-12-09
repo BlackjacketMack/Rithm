@@ -1,0 +1,89 @@
+﻿@page "/search/{query?}"
+@layout MainLayout
+@inject IArticleHelper _articleHelper
+
+
+@if (!_articles.Any())
+{
+    <p>No results found</p>
+    return;
+}
+
+<div class="mt-8">
+    
+    <div>
+        @foreach (var article in _articles)
+        {
+            <div class="mb-4">
+                <div class="d-flex">
+                    <div>
+                        <MudLink Href="@article.Url" Typo="@Typo.h6">@article.Title</MudLink>
+                        <div>
+                            <MudText Typo="@Typo.subtitle2">@article.Subtitle</MudText>
+                        </div>
+                    </div>
+                    <div class="ml-auto">
+                        <MudText Typo="@Typo.caption">@article.Date.ToShortDateString()</MudText>
+                    </div>
+                </div>
+                <MudText @key="article" Class="ma-2">
+                    <MudHighlighter Text="@article.Description"
+                                    HighlightedText="@Query"
+                                    UntilNextBoundary="false"
+                                    CaseSensitive="false"
+                                    Markup="true" />
+                </MudText>
+            </div>
+            <MudDivider Class="mb-4" />
+        }
+    </div>
+</div>
+
+<div class="d-flex justify-center my-8">
+    <MudPagination Count="@_pageCount" @bind-Selected="@_pageNumber" @bind-Selected:after="@afterPageNumberChanged" />
+</div>
+
+@code {
+
+    [Parameter]
+    public string? Query{ get; set; }
+
+    private int _pageNumber = 1;
+    private int _pageSize = 5;
+    private int _pageCount;
+
+    private IEnumerable<IArticle> _articles = Enumerable.Empty<IArticle>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!String.IsNullOrWhiteSpace(Query))
+            await searchArticlesAsync();
+    }
+
+    private async Task afterPageNumberChanged()
+    {
+        await searchArticlesAsync();
+    }
+
+    private async Task searchArticlesAsync()
+    {
+        if(String.IsNullOrWhiteSpace(Query)) return;
+
+        var allArticles = await _articleHelper.GetArticlesAsync();
+        var filteredArticles = allArticles.Where(a => 
+                                           //!a.IsDraft() &&
+                                            (a.Title?.Contains(Query, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                                           (a.Description?.Contains(Query, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                                           (a is MarkdownArticle asMarkdownArticle && asMarkdownArticle.Content.ToString().Contains(Query, StringComparison.OrdinalIgnoreCase)))
+                               .OrderByDescending(a => a.Date);
+
+        _pageCount = (int)Math.Ceiling((double)filteredArticles.Count() / _pageSize);
+
+        var skip = (_pageNumber - 1) * _pageSize;
+        _articles = filteredArticles
+                        .Skip(skip)
+                        .Take(_pageSize);
+
+        StateHasChanged();
+    }
+}
