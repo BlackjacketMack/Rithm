@@ -37,13 +37,20 @@
                 </div>
                 @foreach(var match in articleSearchResult.Matches)
                 {
+                    
                     <MudText @key="match.GetHashCode()" Class="ma-2">
                         <MudHighlighter Text="@match.Phrase"
-                                        HighlightedText="@Query"
+                                        HighlightedTexts="@_matchingKeywords"
                                         UntilNextBoundary="false"
                                         CaseSensitive="false"
                                         Markup="true" />
                     </MudText>
+                    <div style="font-size:.8rem;color:#ccc;">
+                        <b>Section</b> = @match.Section
+                        <b>Term</b> = @match.Term
+                        <b>Score</b> = @match.Score
+                        <b>Exact</b> = @match.IsExactMatch
+                    </div>
                 }
                 
             </div>
@@ -60,6 +67,8 @@
 
     [Parameter]
     public string? Query{ get; set; }
+
+    private IEnumerable<string> _matchingKeywords = Enumerable.Empty<string>();
 
     private int _pageNumber = 1;
     private int _pageSize = 5;
@@ -90,6 +99,8 @@
         _articleSearchResults = filteredArticles
                         .Skip(skip)
                         .Take(_pageSize);
+
+        _matchingKeywords = _articleSearchResults.SelectMany(x => x.Matches.Select(y => y.Term)).Distinct();
 
         StateHasChanged();
     }

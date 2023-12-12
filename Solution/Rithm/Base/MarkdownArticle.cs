@@ -39,6 +39,8 @@ namespace Rithm
 
         public IList<string> Categories { get; set; } = new List<string>();
 
+        public string? ToSearchString() => Content.Value?.ToString();
+
         public override bool Equals(object? obj)
         {
             if (obj == null || GetType() != obj.GetType())

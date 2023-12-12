@@ -2,6 +2,7 @@
 using Rithm.Models;
 using System.Text;
 using System.Text.RegularExpressions;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Rithm
 {
@@ -95,53 +96,99 @@ namespace Rithm
 
             //for now just concat all article content together and search that
             var results = new List<ArticleSearchResult>();
-            
-            var surroundingTextLengthPerSide = parameters.SurroundingTextLength / 2;
 
             foreach(var article in articlesToSearch)
             {
-                var sb = new StringBuilder();
-                sb.Append(article.Title);
-                sb.Append(article.Description);
 
-                if(article is MarkdownArticle asMarkdownArticle)
-                    sb.Append(asMarkdownArticle.Content.ToString());
-
-                var searchString = sb.ToString();
-                var matches = Regex.Matches(searchString, parameters.Keywords, RegexOptions.IgnoreCase);
-
-                if (!matches.Any()) continue;
-
+                //we'll find any of the words in the search string in addition to the whole phrase
+                
                 var articleSearchResult = new ArticleSearchResult();
                 articleSearchResult.Article = article;
-                articleSearchResult.Score = matches.Count();
 
-                //add each match
-                foreach (Match match in matches.Take(parameters.MatchLimit))
+                var searchMatches = new List<ArticleSearchMatch>();
+
+                var searchEntries = new (string Name, string? Value)[]
                 {
-                    var matchIndex = match.Index;
+                    ("Title", article.Title),
+                    ("Subtitle", article.Subtitle),
+                    ("Description", article.Description),
+                    ("Content", article.ToSearchString())
+                };          
 
-                    //try to get the surrounding text
-                    var start = matchIndex - surroundingTextLengthPerSide;
-                    if (start < 0)
-                        start = 0;
-                    
-                    var end = matchIndex + surroundingTextLengthPerSide;
-                    if (end > sb.Length)
-                        end = sb.Length;
-
-                    var phrase = searchString.Substring(start, end - start);
-                    
-                    articleSearchResult.Matches.Add(new ArticleSearchMatch()
-                    {
-                        Phrase = phrase
-                    });
+                foreach(var searchEntry in searchEntries)
+                {
+                    search(searchEntry.Name, searchEntry.Value, parameters.Keywords, parameters.PhraseLength, searchMatches);
                 }
+
+                //if there are no search matches, skip this article
+                if (!searchMatches.Any()) continue;
+
+                var rawScore = searchMatches.Sum(m => m.Score);
+                var finalScore = rawScore;
+
+                //if the rawscore is >= 100 but there is no exact match, limit it to 99
+                if(rawScore >= 100 && !searchMatches.Any(m => m.Score == 100))
+                    finalScore = 99;
+
+                //sum the scores
+                articleSearchResult.Score = finalScore;
+
+                //limit the number of matches returned
+                articleSearchResult.Matches = searchMatches.OrderByDescending(m => m.Score).Take(parameters.MatchLimit).ToList();
 
                 results.Add(articleSearchResult);
             }
 
             return results;
+        }
+
+        private void search(string sourceName, string searchString, string keywords, int phraseLength, List<ArticleSearchMatch> searchMatches)
+        {
+            if (searchString == null) return;
+
+            var keywordsLength = keywords.Length;
+            var searchPattern = $"{keywords}|{keywords.Replace(" ", "|")}";
+            var partialCount = keywords.Split(" ").Length;
+            var matches = Regex.Matches(searchString, searchPattern, RegexOptions.IgnoreCase);
+            var searchPatternLength = searchPattern.Length;
+            var phraseLengthPerSide = phraseLength / 2;
+
+            if (!matches.Any()) return;
+            
+            foreach (Match match in matches)
+            {
+                var matchIndex = match.Index;
+
+                //assume exact match
+                var score = 100d;
+
+                //partials get scored fractionally 
+                var isPartialMatch = match.Value.Length != keywords.Length;
+
+                //if it's a partial match, score it fractionally
+                if (isPartialMatch)
+                    score = (1d / partialCount) * 100;
+
+                //try to get the surrounding text
+                var start = matchIndex - phraseLengthPerSide;
+                if (start < 0)
+                    start = 0;
+
+                var end = matchIndex + phraseLengthPerSide;
+                if (end > searchString.Length)
+                    end = searchString.Length;
+
+                var phrase = searchString.Substring(start, end - start);
+
+                searchMatches.Add(new ArticleSearchMatch()
+                {
+                    Section = sourceName,
+                    Term = match.Value,
+                    Phrase = phrase,
+                    Score = (int)Math.Ceiling(score),
+                    IsExactMatch = !isPartialMatch
+                });
+            }
         }
     }
 }

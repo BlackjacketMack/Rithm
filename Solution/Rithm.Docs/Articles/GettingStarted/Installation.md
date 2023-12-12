@@ -13,7 +13,7 @@
 ##### Bootstrapping
 * * *
 
-Bootstrapping our articles without any addition configuration will look in the executing context's assemblies for any blazor components that implement `IArticle`.
+Bootstrapping our articles without any additional configuration will look in the executing context's assemblies for any blazor components that implement `IArticle`.
 
 
     using Rithm;

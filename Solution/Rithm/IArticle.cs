@@ -38,5 +38,7 @@
         /// Intended for semantic versioning (e.g. major/minor/build/revision).
         /// </summary>
         Version? Version { get => new Version("1.0.0.0"); }
+
+        string? ToSearchString() => null;
     }
 }
